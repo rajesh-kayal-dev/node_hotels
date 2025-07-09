@@ -1,23 +1,25 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
 
-//const mongoURL = process.env.MONGODB_URL_LOCAL;
+// Load .env only in development (not in Render)
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const mongoURL = process.env.MONGODB_URL;
 
+if (!mongoURL) {
+  console.error('❌ MongoDB URL not found in environment variables');
+  process.exit(1); // Exit if undefined
+}
 
 mongoose.connect(mongoURL)
+  .then(() => console.log('✅ Connected to MongoDB'))
+  .catch((err) => console.error('❌ Mongoose connection error:', err));
 
 const db = mongoose.connection;
 
-//define event listeners for the connection
-db.on('connected', () => {
-    console.log('Connected to MongoDb Server');
+db.on('disconnected', () => {
+  console.log('🔌 MongoDB disconnected');
 });
-db.on('error', (err) => {
-    console.error('Mongoose connection error: ' + err);
-});
-db.on('disconected', ()=>{
-    console.log('object disconnected ');
-})
 
 module.exports = db;
