@@ -21,7 +21,8 @@ app.use('/menu', menuRoutes);
 
 
 
-
+// Error handling middleware
+// This middleware will catch any errors that occur in the routes
 app.listen(3000, () => {
   console.log('🚀 Server is running on port 3000');
 });
