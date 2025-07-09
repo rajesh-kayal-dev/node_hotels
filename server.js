@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
 const db = require('./db');
+require('dotenv').config();
 
 const bodyPerser = require('body-parser');
 app.use(bodyPerser.json());
+const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
     res.send('Welcome to my hotel...');
@@ -21,8 +23,6 @@ app.use('/menu', menuRoutes);
 
 
 
-// Error handling middleware
-// This middleware will catch any errors that occur in the routes
-app.listen(3000, () => {
-  console.log('🚀 Server is running on port 3000');
+app.listen(PORT, () => {
+  console.log('🚀 Server is running on port'+ PORT);
 });
